@@ -1,5 +1,7 @@
 <div class="wrapper">
 
+    @if (yearsWithMultipleWinners.length > 0) {
+
     <div class="card">
         <span class="title">List years with multiple winners</span>
 
@@ -17,14 +19,16 @@
                     <td>{{yearObject.year}}</td>
                     <td>{{yearObject.winnerCount}}</td>
                 </tr>
+                } @empty {
+                <tr>
+                    <span>No movies were found</span>
+                </tr>
                 }
-
-
-
 
 
             </tbody>
         </table>
     </div>
+    }
 
 </div>

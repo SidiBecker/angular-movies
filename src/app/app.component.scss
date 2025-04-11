@@ -8,7 +8,6 @@ header {
 .content-wrapper {
   display: flex;
   height: 100vh;
-//   padding: 0 12px;
   background-color: #f5f5fa;
 
   nav {
@@ -23,7 +22,7 @@ header {
     span {
       cursor: pointer;
       font-size: 14px;
-      color: #707C8B;
+      color: #707c8b;
 
       &.active {
         color: #0087e0;
@@ -34,9 +33,6 @@ header {
   main {
     flex: 1;
     background-color: #fff;
+    padding: 24px;
   }
-}
-
-.ativo {
-  background-color: red;
 }
