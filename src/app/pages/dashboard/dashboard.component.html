@@ -1,0 +1,30 @@
+<div class="wrapper">
+
+    <div class="card">
+        <span class="title">List years with multiple winners</span>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Year</th>
+                    <th>Win Count</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                @for (yearObject of yearsWithMultipleWinners; track yearObject.year) {
+                <tr>
+                    <td>{{yearObject.year}}</td>
+                    <td>{{yearObject.winnerCount}}</td>
+                </tr>
+                }
+
+
+
+
+
+            </tbody>
+        </table>
+    </div>
+
+</div>

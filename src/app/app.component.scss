@@ -1,0 +1,42 @@
+header {
+  background-color: #32373c;
+  color: #fff;
+  padding: 12px 24px;
+  font-size: 16px;
+}
+
+.content-wrapper {
+  display: flex;
+  height: 100vh;
+//   padding: 0 12px;
+  background-color: #f5f5fa;
+
+  nav {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: 4px;
+    width: 300px;
+    padding: 12px;
+
+    span {
+      cursor: pointer;
+      font-size: 14px;
+      color: #707C8B;
+
+      &.active {
+        color: #0087e0;
+      }
+    }
+  }
+
+  main {
+    flex: 1;
+    background-color: #fff;
+  }
+}
+
+.ativo {
+  background-color: red;
+}
