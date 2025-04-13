@@ -5,6 +5,7 @@ import {
   Table,
   TableColumn,
   TableRow,
+  TableSearchbar,
 } from './card-dashboard/card-dashboard.component';
 
 @Component({
@@ -15,34 +16,39 @@ import {
   imports: [CardDashboardComponent],
 })
 export class DashboardComponent implements OnInit {
-
   public yearsWithMultipleWinners: TableRow[] = [];
   public yearsWithMultipleWinnersColumns: TableColumn[] = [
-    {
-      title: 'Year',
-      field: 'year',
-    },
-    {
-      title: 'Win Count',
-      field: 'winnerCount',
-    },
+    { title: 'Year', field: 'year' },
+    { title: 'Win Count', field: 'winnerCount' },
   ];
 
   public studiosWithWinCount: TableRow[] = [];
   public studiosWithWinCountColumns: TableColumn[] = [
-    {
-      title: 'Name',
-      field: 'name',
-    },
-    {
-      title: 'Win Count',
-      field: 'winCount',
-    }
-  ]
+    { title: 'Name', field: 'name' },
+    { title: 'Win Count', field: 'winCount' },
+  ];
 
   public minMaxWinIntervalForProducersTables: Table[] = [];
 
-  constructor (private movies: MovieService) { }
+  public winnersByYearSearchBar: TableSearchbar = {
+    type: 'number',
+    min: 1900,
+    max: new Date().getFullYear(),
+    placeholder: 'Search by year',
+  };
+
+  public winnersByYearTable: Table = {
+    columns: [
+      { field: 'id', title: 'Id' },
+      { field: 'year', title: 'Year' },
+      { field: 'title', title: 'Title' },
+    ],
+    data: [],
+  };
+
+  public winnersByYearData: TableRow[] = [];
+
+  constructor(private moviesService: MovieService) {}
 
   ngOnInit(): void {
     this.getYearsWithMultipleWinners();
@@ -51,7 +57,7 @@ export class DashboardComponent implements OnInit {
   }
 
   getYearsWithMultipleWinners() {
-    this.movies.getYearsWithMultipleWinners().subscribe({
+    this.moviesService.getYearsWithMultipleWinners().subscribe({
       next: (response: any) => {
         this.yearsWithMultipleWinners = response.years as any[];
       },
@@ -59,49 +65,48 @@ export class DashboardComponent implements OnInit {
   }
 
   getStudiosWithWinCount() {
-    this.movies.getStudiosWithWinCount().subscribe({
+    this.moviesService.getStudiosWithWinCount().subscribe({
       next: (response: any) => {
         const studiosWithWinCount = response.studios as any[];
 
-        this.studiosWithWinCount = studiosWithWinCount.sort((a: any, b: any) => b.winCount - a.winCount).slice(0, 3)
+        this.studiosWithWinCount = studiosWithWinCount
+          .sort((a: any, b: any) => b.winCount - a.winCount)
+          .slice(0, 3);
       },
     });
   }
 
   getMaxMinWinIntervalForProducers() {
-    this.movies.getMaxMinWinIntervalForProducers().subscribe({
+    this.moviesService.getMaxMinWinIntervalForProducers().subscribe({
       next: (response: any) => {
-
-        const columns: TableColumn[] = [{
-          title: 'Producer',
-          field: 'producer'
-        },
-        {
-          title: 'Interval',
-          field: 'interval'
-        },
-        {
-          title: 'Previous Year',
-          field: 'previousWin'
-        },
-        {
-          title: 'Following Year',
-          field: 'followingWin'
-        }]
+        const columns: TableColumn[] = [
+          { title: 'Producer', field: 'producer' },
+          { title: 'Interval', field: 'interval' },
+          { title: 'Previous Year', field: 'previousWin' },
+          { title: 'Following Year', field: 'followingWin' },
+        ];
 
         const maximumTable: Table = {
           title: 'Maximum',
           columns,
-          data: response.max
+          data: response.max,
         };
 
         const minimumTable: Table = {
           title: 'Minimum',
           columns,
-          data: response.min
-        }
+          data: response.min,
+        };
 
-        this.minMaxWinIntervalForProducersTables = [maximumTable, minimumTable]
+        this.minMaxWinIntervalForProducersTables = [maximumTable, minimumTable];
+      },
+    });
+  }
+
+  getWinnersByYear(search: string) {
+    this.moviesService.getWinnersByYear(Number(search)).subscribe({
+      next: (response: any) => {
+        this.winnersByYearTable.data = response;
       },
     });
   }

@@ -9,6 +9,15 @@
         <span class="table-title">{{table.title}}</span>
         }
 
+        @if(searchBar){
+        <div class="search">
+            <input #input [type]="searchBar.type" [placeholder]="searchBar.placeholder" [min]="searchBar.min"
+                [max]="searchBar.max" (keyup.enter)="search(input)">
+            <!-- TODO: Icon -->
+            <button (click)="search(input)">Search</button>
+        </div>
+        }
+
         <table>
             <thead>
                 <tr>
@@ -25,6 +34,12 @@
                     <td>{{ row[column.field] }}</td>
                     }
                 </tr>
+                }@empty {
+                @if (searchBar && lastSearch.length > 0) {
+                <tr>
+                    <td class="empty" [colSpan]="table.columns.length">No results found</td>
+                </tr>
+                }
                 }
 
             </tbody>

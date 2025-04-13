@@ -11,7 +11,13 @@
     }
 
     @if (minMaxWinIntervalForProducersTables.length > 0) {
-        <card-dashboard title="Producers with longest and shortest interval between wins" [tables]="minMaxWinIntervalForProducersTables"></card-dashboard>
-        }
+    <card-dashboard title="Producers with longest and shortest interval between wins"
+        [tables]="minMaxWinIntervalForProducersTables"></card-dashboard>
+    }
+
+    <card-dashboard title="List movie winners by year" [searchBar]="winnersByYearSearchBar"
+        (onSearch)="getWinnersByYear($event)" [tables]="[winnersByYearTable]">
+
+    </card-dashboard>
 
 </div>

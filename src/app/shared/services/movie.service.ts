@@ -5,7 +5,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
   providedIn: 'root',
 })
 export class MovieService {
-  constructor(private httpClient: HttpClient) {}
+  constructor (private httpClient: HttpClient) { }
 
   private getMovies(params: any) {
     return this.httpClient.get('/movies', { params });
@@ -21,5 +21,9 @@ export class MovieService {
 
   getMaxMinWinIntervalForProducers() {
     return this.getMovies({ projection: 'max-min-win-interval-for-producers' });
+  }
+
+  getWinnersByYear(year: number) {
+    return this.getMovies({ winner: true, year });
   }
 }
