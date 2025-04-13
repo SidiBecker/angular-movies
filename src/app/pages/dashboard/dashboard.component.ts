@@ -3,6 +3,7 @@ import { MovieService } from 'src/app/shared/services/movie.service';
 import {
   CardDashboardComponent,
   TableColumn,
+  TableRow,
 } from './card-dashboard/card-dashboard.component';
 
 @Component({
@@ -13,8 +14,8 @@ import {
   imports: [CardDashboardComponent],
 })
 export class DashboardComponent implements OnInit {
-  public yearsWithMultipleWinners: any[] = [];
 
+  public yearsWithMultipleWinners: TableRow[] = [];
   public yearsWithMultipleWinnersColumns: TableColumn[] = [
     {
       title: 'Year',
@@ -25,12 +26,41 @@ export class DashboardComponent implements OnInit {
       field: 'winnerCount',
     },
   ];
-  constructor(private movies: MovieService) {}
+
+  public studiosWithWinCount: TableRow[] = [];
+  public studiosWithWinCountColumns: TableColumn[] = [
+    {
+      title: 'Name',
+      field: 'name',
+    },
+    {
+      title: 'Win Count',
+      field: 'winCount',
+    }
+  ]
+
+
+  constructor (private movies: MovieService) { }
 
   ngOnInit(): void {
+    this.getYearsWithMultipleWinners();
+    this.getStudiosWithWinCount();
+  }
+
+  getYearsWithMultipleWinners() {
     this.movies.getYearsWithMultipleWinners().subscribe({
       next: (response: any) => {
         this.yearsWithMultipleWinners = response.years as any[];
+      },
+    });
+  }
+
+  getStudiosWithWinCount() {
+    this.movies.getStudiosWithWinCount().subscribe({
+      next: (response: any) => {
+        const studiosWithWinCount = response.studios as any[];
+
+        this.studiosWithWinCount = studiosWithWinCount.sort((a: any, b: any) => b.winCount - a.winCount).slice(0, 3)
       },
     });
   }

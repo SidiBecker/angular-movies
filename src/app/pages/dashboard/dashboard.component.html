@@ -1,10 +1,13 @@
 <div class="wrapper">
 
     @if (yearsWithMultipleWinners.length > 0) {
-
     <card-dashboard title="List years with multiple winners" [columns]="yearsWithMultipleWinnersColumns"
         [data]="yearsWithMultipleWinners"></card-dashboard>
+    }
 
+    @if (studiosWithWinCount.length > 0) {
+    <card-dashboard title="Top 3 studios with winners" [columns]="studiosWithWinCountColumns"
+        [data]="studiosWithWinCount"></card-dashboard>
     }
 
 </div>

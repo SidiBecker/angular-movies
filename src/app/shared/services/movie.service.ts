@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root',
@@ -7,11 +7,15 @@ import { HttpClient } from '@angular/common/http';
 export class MovieService {
   constructor(private httpClient: HttpClient) {}
 
-  getYearsWithMultipleWinners() {
-    const params = {
-      projection: 'years-with-multiple-winners',
-    };
-
+  private getMovies(params: any) {
     return this.httpClient.get('/movies', { params });
+  }
+
+  getYearsWithMultipleWinners() {
+    return this.getMovies({ projection: 'years-with-multiple-winners' });
+  }
+
+  getStudiosWithWinCount() {
+    return this.getMovies({ projection: 'studios-with-win-count' });
   }
 }
