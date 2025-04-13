@@ -10,4 +10,8 @@
         [data]="studiosWithWinCount"></card-dashboard>
     }
 
+    @if (minMaxWinIntervalForProducersTables.length > 0) {
+        <card-dashboard title="Producers with longest and shortest interval between wins" [tables]="minMaxWinIntervalForProducersTables"></card-dashboard>
+        }
+
 </div>

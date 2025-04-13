@@ -1,25 +1,35 @@
 <div class="card">
     <span class="title">{{title}}</span>
 
-    <table>
-        <thead>
-            <tr>
-                @for (column of columns; track column.field) {
-                <th>{{ column.title }}</th>
+    @for (table of tables; track $index) {
+
+    <div class="table-container">
+
+        @if (table.title) {
+        <span class="table-title">{{table.title}}</span>
+        }
+
+        <table>
+            <thead>
+                <tr>
+                    @for (column of table.columns; track column.field) {
+                    <th>{{ column.title }}</th>
+                    }
+                </tr>
+            </thead>
+            <tbody>
+
+                @for (row of table.data; track $index) {
+                <tr>
+                    @for (column of table.columns; track column.field) {
+                    <td>{{ row[column.field] }}</td>
+                    }
+                </tr>
                 }
-            </tr>
-        </thead>
-        <tbody>
 
-            @for (row of data; let i = $index; track `table-row-${i}`) {
-            <tr>
-                @for (column of columns; track column.field) {
-                <td>{{ row[column.field] }}</td>
-                }
-            </tr>
-            }
+            </tbody>
+        </table>
+    </div>
+    }
 
-
-        </tbody>
-    </table>
 </div>

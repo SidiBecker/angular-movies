@@ -18,4 +18,8 @@ export class MovieService {
   getStudiosWithWinCount() {
     return this.getMovies({ projection: 'studios-with-win-count' });
   }
+
+  getMaxMinWinIntervalForProducers() {
+    return this.getMovies({ projection: 'max-min-win-interval-for-producers' });
+  }
 }

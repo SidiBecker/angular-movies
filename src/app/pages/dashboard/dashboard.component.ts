@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MovieService } from 'src/app/shared/services/movie.service';
 import {
   CardDashboardComponent,
+  Table,
   TableColumn,
   TableRow,
 } from './card-dashboard/card-dashboard.component';
@@ -39,12 +40,14 @@ export class DashboardComponent implements OnInit {
     }
   ]
 
+  public minMaxWinIntervalForProducersTables: Table[] = [];
 
   constructor (private movies: MovieService) { }
 
   ngOnInit(): void {
     this.getYearsWithMultipleWinners();
     this.getStudiosWithWinCount();
+    this.getMaxMinWinIntervalForProducers();
   }
 
   getYearsWithMultipleWinners() {
@@ -61,6 +64,44 @@ export class DashboardComponent implements OnInit {
         const studiosWithWinCount = response.studios as any[];
 
         this.studiosWithWinCount = studiosWithWinCount.sort((a: any, b: any) => b.winCount - a.winCount).slice(0, 3)
+      },
+    });
+  }
+
+  getMaxMinWinIntervalForProducers() {
+    this.movies.getMaxMinWinIntervalForProducers().subscribe({
+      next: (response: any) => {
+
+        const columns: TableColumn[] = [{
+          title: 'Producer',
+          field: 'producer'
+        },
+        {
+          title: 'Interval',
+          field: 'interval'
+        },
+        {
+          title: 'Previous Year',
+          field: 'previousWin'
+        },
+        {
+          title: 'Following Year',
+          field: 'followingWin'
+        }]
+
+        const maximumTable: Table = {
+          title: 'Maximum',
+          columns,
+          data: response.max
+        };
+
+        const minimumTable: Table = {
+          title: 'Minimum',
+          columns,
+          data: response.min
+        }
+
+        this.minMaxWinIntervalForProducersTables = [maximumTable, minimumTable]
       },
     });
   }
