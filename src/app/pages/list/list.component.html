@@ -10,7 +10,7 @@
                     <div class="filter-container">
                         <span>Year</span>
                         <input type="number" min="1900" [max]="getCurrentYear()" #year placeholder="Filter by year"
-                            (keydown.enter)="getMovies()">
+                            (keydown.enter)="onChangeYear()">
                     </div>
                 </th>
                 <th>Title</th>
@@ -21,7 +21,6 @@
                             <option value="">Yes/No</option>
                             <option value="true">Yes</option>
                             <option value="false">No</option>
-
                         </select>
                     </div>
                 </th>
@@ -30,21 +29,13 @@
 
         <tbody>
 
-            @for (movie of movies; track $index) {
+            @for (movie of data.content; track $index) {
 
             <tr>
-                <td>
-                    {{movie.id}}
-                </td>
-                <td>
-                    {{movie.year}}
-                </td>
-                <td>
-                    {{movie.title}}
-                </td>
-                <td>
-                    {{movie.winner ? 'Yes': 'No'}}
-                </td>
+                <td>{{movie.id}} </td>
+                <td> {{movie.year}} </td>
+                <td> {{movie.title}} </td>
+                <td> {{movie.winner ? 'Yes': 'No'}} </td>
             </tr>
             }@empty {
             <tr>
@@ -52,5 +43,37 @@
             </tr>
             }
         </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="4">
+                    <div class="pagination">
+                        <span class="material-icons icon first" [ngClass]="{'disabled': data.first}"
+                            (click)="filters.page = 0; getMovies()">
+                            first_page
+                        </span>
+                        <span class="material-icons icon back" [ngClass]="{'disabled': data.first}"
+                            (click)="filters.page = filters.page - 1; getMovies()">
+                            play_arrow
+                        </span>
+                        <div class="pages">
+                            @for (page of pages; track $index) {
+                            <span [ngClass]="{'active': page.active }"
+                                (click)="filters.page = page.number - 1; getMovies()">{{page.number}}</span>
+                            }
+
+                        </div>
+                        <span class="material-icons icon next" [ngClass]="{'disabled': data.last}"
+                            (click)="filters.page = filters.page + 1; getMovies()">
+                            play_arrow
+                        </span>
+                        <span class="material-icons icon last" [ngClass]="{'disabled': data.last}"
+                            (click)="filters.page = data.totalPages - 1; getMovies()">
+                            last_page
+                        </span>
+                    </div>
+                </td>
+            </tr>
+
+        </tfoot>
     </table>
 </div>
