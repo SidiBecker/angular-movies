@@ -47,25 +47,29 @@
             <tr>
                 <td colspan="4">
                     <div class="pagination">
+
                         <span class="material-icons icon first" [ngClass]="{'disabled': data.first}"
                             (click)="filters.page = 0; getMovies()">
                             first_page
                         </span>
+
                         <span class="material-icons icon back" [ngClass]="{'disabled': data.first}"
                             (click)="filters.page = filters.page - 1; getMovies()">
                             play_arrow
                         </span>
+
                         <div class="pages">
                             @for (page of pages; track $index) {
                             <span [ngClass]="{'active': page.active }"
                                 (click)="filters.page = page.number - 1; getMovies()">{{page.number}}</span>
                             }
-
                         </div>
+
                         <span class="material-icons icon next" [ngClass]="{'disabled': data.last}"
                             (click)="filters.page = filters.page + 1; getMovies()">
                             play_arrow
                         </span>
+
                         <span class="material-icons icon last" [ngClass]="{'disabled': data.last}"
                             (click)="filters.page = data.totalPages - 1; getMovies()">
                             last_page

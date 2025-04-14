@@ -40,7 +40,7 @@ export class ListComponent implements OnInit {
   constructor(private moviesService: MovieService) {}
 
   @HostListener('window:resize', ['$event'])
-  onResize(event: Event) {
+  onResize() {
     // Clean existing timeout
     clearTimeout(this.resizeTimeout);
 
@@ -61,7 +61,6 @@ export class ListComponent implements OnInit {
     const availableHeight = window.innerHeight;
 
     const itemHeight = 40;
-
     const headerHeight = 150;
     const footerHeight = 50;
 
@@ -118,17 +117,26 @@ export class ListComponent implements OnInit {
       number: i + 1,
     }));
 
-    if (this.filters.page <= 2) {
-      pages = pages.slice(0, 5);
-    } else if (this.filters.page >= this.data.totalPages - 2) {
-      pages = pages.slice(this.data.totalPages - 5, this.data.totalPages);
-    } else {
-      const start = this.filters.page - 2;
-      pages = pages.slice(start, start + 5);
+    const currentIndexPage = this.filters.page;
+
+    // If there are more than 5 pages, we show just 5, based on current page.
+    if (pages.length > 5) {
+      if (currentIndexPage <= 2) {
+        pages = pages.slice(0, 5); // Show first five pages
+      } else if (currentIndexPage >= this.data.totalPages - 2) {
+        // If it's the end, show the last five pages.
+        pages = pages.slice(this.data.totalPages - 5, this.data.totalPages);
+      } else {
+        // Show the current page on center, two before, and two after
+        const start = currentIndexPage - 2;
+        pages = pages.slice(start, start + 5);
+      }
     }
 
-    pages.forEach((page: any, index) => {
-      page.active = page.number == this.filters.page + 1;
+    // Set the active status for styling.
+    // It's not done directly in html, because it would change the styling before request is completed
+    pages.forEach((page: any) => {
+      page.active = page.number == currentIndexPage + 1;
     });
 
     this.pages = pages;
