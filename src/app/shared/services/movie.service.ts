@@ -1,29 +1,43 @@
-import { inject, Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { map, Observable } from 'rxjs';
+import {
+  Movie,
+  MoviesResponse,
+  ProducersIntervalResponse,
+  StudiosResponse,
+  YearStats
+} from '../interfaces/movie.interface';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class MovieService {
   constructor(private httpClient: HttpClient) {}
 
-  public getMovies(params: any) {
-    return this.httpClient.get('/movies', { params });
+  public getMovies<T>(params: any): Observable<T> {
+    return this.httpClient.get<T>('/movies', { params });
   }
 
-  getYearsWithMultipleWinners() {
-    return this.getMovies({ projection: 'years-with-multiple-winners' });
+  getYearsWithMultipleWinners(): Observable<{ years: YearStats[] }> {
+    return this.getMovies<{ years: YearStats[] }>({
+      projection: 'years-with-multiple-winners'
+    });
   }
 
-  getStudiosWithWinCount() {
-    return this.getMovies({ projection: 'studios-with-win-count' });
+  getStudiosWithWinCount(): Observable<StudiosResponse> {
+    return this.getMovies<StudiosResponse>({
+      projection: 'studios-with-win-count'
+    });
   }
 
-  getMaxMinWinIntervalForProducers() {
-    return this.getMovies({ projection: 'max-min-win-interval-for-producers' });
+  getMaxMinWinIntervalForProducers(): Observable<ProducersIntervalResponse> {
+    return this.getMovies<ProducersIntervalResponse>({
+      projection: 'max-min-win-interval-for-producers'
+    });
   }
 
-  getWinnersByYear(year: number) {
-    return this.getMovies({ winner: true, year });
+  getWinnersByYear(year: number): Observable<Movie[]> {
+    return this.getMovies<Movie[]>({ winner: true, year });
   }
 }

@@ -3,6 +3,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ListComponent } from './list.component';
 import { MovieService } from 'src/app/shared/services/movie.service';
 import { of } from 'rxjs';
+import { MoviesResponse } from 'src/app/shared/interfaces/movie.interface';
 
 describe('ListComponent', () => {
   let component: ListComponent;
@@ -17,7 +18,7 @@ describe('ListComponent', () => {
         title: "Can't Stop the Music",
         studios: ['Associated Film Distribution'],
         producers: ['Allan Carr'],
-        winner: true,
+        winner: true
       },
       {
         id: 2,
@@ -25,7 +26,7 @@ describe('ListComponent', () => {
         title: 'Cruising',
         studios: ['Lorimar Productions', 'United Artists'],
         producers: ['Jerry Weintraub'],
-        winner: false,
+        winner: false
       },
       {
         id: 12,
@@ -33,9 +34,9 @@ describe('ListComponent', () => {
         title: 'Endless Love',
         studios: ['PolyGram', 'Universal Studios'],
         producers: ['Dyson Lovell'],
-        winner: false,
-      },
-    ],
+        winner: false
+      }
+    ]
   };
 
   beforeEach(async () => {
@@ -43,7 +44,7 @@ describe('ListComponent', () => {
 
     await TestBed.configureTestingModule({
       imports: [ListComponent],
-      providers: [{ provide: MovieService, useValue: moviesServiceMock }],
+      providers: [{ provide: MovieService, useValue: moviesServiceMock }]
     }).compileComponents();
 
     fixture = TestBed.createComponent(ListComponent);
@@ -72,12 +73,12 @@ describe('ListComponent', () => {
 
     expect(moviesServiceMock.getMovies).toHaveBeenCalled();
 
-    expect(component.data).toEqual(movieListMock);
+    expect(component.data).toEqual(movieListMock as MoviesResponse);
 
     // Rendering check
     const compiled = fixture.nativeElement as HTMLElement;
     expect(compiled.querySelector('table tbody tr td')?.textContent).toContain(
-      movieListMock.content[0].id,
+      movieListMock.content[0].id
     );
   });
 
@@ -87,7 +88,7 @@ describe('ListComponent', () => {
     component.filters.year = 1980;
 
     const moviesByYear = {
-      content: movieListMock.content.filter((movie) => movie.year == year),
+      content: movieListMock.content.filter((movie) => movie.year == year)
     };
 
     moviesServiceMock.getMovies.and.returnValue(of(moviesByYear));
@@ -102,12 +103,12 @@ describe('ListComponent', () => {
 
     expect(moviesServiceMock.getMovies).toHaveBeenCalled();
 
-    expect(component.data).toEqual(moviesByYear);
+    expect(component.data).toEqual(moviesByYear as MoviesResponse);
 
     // Rendering check
     const compiled = fixture.nativeElement as HTMLElement;
     expect(compiled.querySelectorAll('table tbody tr')?.length).toEqual(
-      moviesByYear.content.length,
+      moviesByYear.content.length
     );
   });
 
@@ -115,7 +116,7 @@ describe('ListComponent', () => {
     component.filters.winner = true;
 
     const winnersMovies = {
-      content: movieListMock.content.filter((movie) => movie.winner),
+      content: movieListMock.content.filter((movie) => movie.winner)
     };
 
     moviesServiceMock.getMovies.and.returnValue(of(winnersMovies));
@@ -130,16 +131,16 @@ describe('ListComponent', () => {
 
     expect(moviesServiceMock.getMovies).toHaveBeenCalled();
 
-    expect(component.data).toEqual(winnersMovies);
+    expect(component.data).toEqual(winnersMovies as MoviesResponse);
 
     // Rendering check
     const compiled = fixture.nativeElement as HTMLElement;
     expect(compiled.querySelectorAll('table tbody tr')?.length).toEqual(
-      winnersMovies.content.length,
+      winnersMovies.content.length
     );
 
     expect(compiled.querySelector('table tbody tr td')?.textContent).toContain(
-      winnersMovies.content[0].id,
+      winnersMovies.content[0].id
     );
   });
 
@@ -148,8 +149,8 @@ describe('ListComponent', () => {
 
     const moviesByYear = {
       content: movieListMock.content.filter(
-        (movie) => movie.year == component.filters.year,
-      ),
+        (movie) => movie.year == component.filters.year
+      )
     };
 
     moviesServiceMock.getMovies.and.returnValue(of(moviesByYear));
@@ -164,12 +165,12 @@ describe('ListComponent', () => {
 
     expect(moviesServiceMock.getMovies).toHaveBeenCalled();
 
-    expect(component.data).toEqual(moviesByYear);
+    expect(component.data).toEqual(moviesByYear as MoviesResponse);
 
     // Rendering check
     const compiled = fixture.nativeElement as HTMLElement;
     expect(compiled.querySelector('table tbody tr td')?.className).toContain(
-      'empty',
+      'empty'
     );
   });
 
@@ -177,7 +178,7 @@ describe('ListComponent', () => {
     spyOn(component, 'getMovies');
 
     const buttons = fixture.nativeElement.querySelectorAll(
-      '.pagination span',
+      '.pagination span'
     ) as HTMLSpanElement[];
 
     // Click all of navigation buttons and expect a server call

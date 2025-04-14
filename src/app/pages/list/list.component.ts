@@ -4,9 +4,10 @@ import {
   ElementRef,
   HostListener,
   OnInit,
-  ViewChild,
+  ViewChild
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { MoviesResponse } from 'src/app/shared/interfaces/movie.interface';
 import { MovieService } from 'src/app/shared/services/movie.service';
 
 export interface MovieListParams {
@@ -16,21 +17,26 @@ export interface MovieListParams {
   year?: number;
 }
 
+export interface Page {
+  number: number;
+  active: boolean;
+}
+
 @Component({
   selector: 'app-list',
   templateUrl: './list.component.html',
   styleUrls: ['./list.component.scss'],
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule]
 })
 export class ListComponent implements OnInit {
-  public data: any;
+  public data!: MoviesResponse;
 
   public filters: MovieListParams = {
     page: 0,
-    size: 99,
+    size: 99
   };
 
-  public pages: any[] = [];
+  public pages: Page[] = [];
 
   // Timeout to wait for get movies after a resize event
   private resizeTimeout: any;
@@ -92,22 +98,22 @@ export class ListComponent implements OnInit {
 
     // Remove all null fields from object
     const params = Object.fromEntries(
-      Object.entries(this.filters).filter(([_, value]) => value != null),
+      Object.entries(this.filters).filter(([_, value]) => value != null)
     );
 
     this.moviesService.getMovies(params).subscribe({
-      next: (response: any) => {
-        this.data = response;
+      next: (response) => {
+        this.data = response as any;
 
         this.updatePages();
-      },
+      }
     });
   }
 
   updatePages() {
     let pages = Array.from({ length: this.data.totalPages }, (_, i) => ({
-      number: i + 1,
-    }));
+      number: i + 1
+    })) as Page[];
 
     const currentIndexPage = this.filters.page;
 
@@ -127,7 +133,7 @@ export class ListComponent implements OnInit {
 
     // Set the active status for styling.
     // It's not done directly in html, because it would change the styling before request is completed
-    pages.forEach((page: any) => {
+    pages.forEach((page) => {
       page.active = page.number == currentIndexPage + 1;
     });
 
@@ -157,7 +163,7 @@ export class ListComponent implements OnInit {
     return new Date().getFullYear();
   }
 
-  onClickPage(page: any) {
+  onClickPage(page: Page) {
     if (page.active) {
       return;
     }

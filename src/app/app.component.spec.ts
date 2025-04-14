@@ -10,9 +10,9 @@ describe('AppComponent', () => {
       imports: [
         RouterModule.forRoot([
           { path: 'dashboard', component: DashboardComponent },
-          { path: 'list', component: ListComponent },
-        ]),
-      ],
+          { path: 'list', component: ListComponent }
+        ])
+      ]
     });
   });
 
