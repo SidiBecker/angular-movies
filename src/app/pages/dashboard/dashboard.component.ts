@@ -16,25 +16,18 @@ import {
   imports: [CardDashboardComponent],
 })
 export class DashboardComponent implements OnInit {
-  public yearsWithMultipleWinners: TableRow[] = [];
-  public yearsWithMultipleWinnersColumns: TableColumn[] = [
-    { title: 'Year', field: 'year' },
-    { title: 'Win Count', field: 'winnerCount' },
-  ];
+  public yearsWithMultipleWinnersTable: Table = {
+    columns: [
+      { title: 'Year', field: 'year' },
+      { title: 'Win Count', field: 'winnerCount' },
+    ],
+  };
 
-  public studiosWithWinCount: TableRow[] = [];
-  public studiosWithWinCountColumns: TableColumn[] = [
-    { title: 'Name', field: 'name' },
-    { title: 'Win Count', field: 'winCount' },
-  ];
-
-  public minMaxWinIntervalForProducersTables: Table[] = [];
-
-  public winnersByYearSearchBar: TableSearchbar = {
-    type: 'number',
-    min: 1900,
-    max: new Date().getFullYear(),
-    placeholder: 'Search by year',
+  public studiosWithWinCountTable: Table = {
+    columns: [
+      { title: 'Name', field: 'name' },
+      { title: 'Win Count', field: 'winCount' },
+    ],
   };
 
   public winnersByYearTable: Table = {
@@ -44,9 +37,18 @@ export class DashboardComponent implements OnInit {
       { field: 'title', title: 'Title' },
     ],
     data: [],
+    searchBar: {
+      type: 'number',
+      min: 1900,
+      max: new Date().getFullYear(),
+      placeholder: 'Search by year',
+      search: (value: string) => {
+        this.getWinnersByYear(value);
+      },
+    },
   };
 
-  public winnersByYearData: TableRow[] = [];
+  public minMaxWinIntervalForProducersTables: Table[] = [];
 
   constructor(private moviesService: MovieService) {}
 
@@ -59,7 +61,7 @@ export class DashboardComponent implements OnInit {
   getYearsWithMultipleWinners() {
     this.moviesService.getYearsWithMultipleWinners().subscribe({
       next: (response: any) => {
-        this.yearsWithMultipleWinners = response.years as any[];
+        this.yearsWithMultipleWinnersTable.data = response.years as any[];
       },
     });
   }
@@ -69,7 +71,7 @@ export class DashboardComponent implements OnInit {
       next: (response: any) => {
         const studiosWithWinCount = response.studios as any[];
 
-        this.studiosWithWinCount = studiosWithWinCount
+        this.studiosWithWinCountTable.data = studiosWithWinCount
           .sort((a: any, b: any) => b.winCount - a.winCount)
           .slice(0, 3);
       },
