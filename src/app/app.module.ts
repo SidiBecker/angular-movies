@@ -19,7 +19,6 @@ import { provideHttpClientTesting } from '@angular/common/http/testing';
       multi: true,
     },
     provideHttpClient(),
-    provideHttpClientTesting(),
   ],
   bootstrap: [AppComponent],
 })

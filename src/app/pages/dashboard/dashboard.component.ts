@@ -69,12 +69,17 @@ export class DashboardComponent implements OnInit {
         const studiosWithWinCount = response.studios as any[];
 
         if (studiosWithWinCount) {
-          this.studiosWithWinCountTable.data = studiosWithWinCount
-            .sort((a: any, b: any) => b.winCount - a.winCount)
-            .slice(0, 3);
+          this.studiosWithWinCountTable.data =
+            this.getTopStudiosWithWin(studiosWithWinCount);
         }
       },
     });
+  }
+
+  getTopStudiosWithWin(data: any[], limit = 3) {
+    return data
+      .sort((a: any, b: any) => b.winCount - a.winCount)
+      .slice(0, limit);
   }
 
   getMaxMinWinIntervalForProducers() {

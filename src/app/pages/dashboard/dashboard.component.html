@@ -1,8 +1,10 @@
 <div class="wrapper">
 
-    <card-dashboard title="List years with multiple winners" [table]="yearsWithMultipleWinnersTable"></card-dashboard>
+    <card-dashboard id="card-dashboard-multiple-winners" title="List years with multiple winners"
+        [table]="yearsWithMultipleWinnersTable"></card-dashboard>
 
-    <card-dashboard title="Top 3 studios with winners" [table]="studiosWithWinCountTable"></card-dashboard>
+    <card-dashboard id="card-dashboard-top-studios-winners" title="Top 3 studios with winners"
+        [table]="studiosWithWinCountTable"></card-dashboard>
 
     <card-dashboard title="Producers with longest and shortest interval between wins"
         [tables]="minMaxWinIntervalForProducersTables"></card-dashboard>
