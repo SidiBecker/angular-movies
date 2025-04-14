@@ -9,21 +9,15 @@ import { ApiInterceptor } from './interceptors/api.interceptor';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    ListComponent
-  ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule
-  ],
+  declarations: [AppComponent],
+  imports: [BrowserModule, AppRoutingModule],
   providers: [
     {
       provide: HTTP_INTERCEPTORS,
       useClass: ApiInterceptor,
-      multi: true
-    }
+      multi: true,
+    },
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

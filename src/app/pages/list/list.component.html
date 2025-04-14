@@ -1,1 +1,56 @@
-<p>list works!</p>
+<div class="container">
+
+    <span class="title">List movies</span>
+
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>
+                    <div class="filter-container">
+                        <span>Year</span>
+                        <input type="number" min="1900" [max]="getCurrentYear()" #year placeholder="Filter by year"
+                            (keydown.enter)="getMovies()">
+                    </div>
+                </th>
+                <th>Title</th>
+                <th>
+                    <div class="filter-container">
+                        <span>Winner?</span>
+                        <select (change)="onChangeWinner($event)">
+                            <option value="">Yes/No</option>
+                            <option value="true">Yes</option>
+                            <option value="false">No</option>
+
+                        </select>
+                    </div>
+                </th>
+            </tr>
+        </thead>
+
+        <tbody>
+
+            @for (movie of movies; track $index) {
+
+            <tr>
+                <td>
+                    {{movie.id}}
+                </td>
+                <td>
+                    {{movie.year}}
+                </td>
+                <td>
+                    {{movie.title}}
+                </td>
+                <td>
+                    {{movie.winner ? 'Yes': 'No'}}
+                </td>
+            </tr>
+            }@empty {
+            <tr>
+                <td class="empty" colspan="4">No results found</td>
+            </tr>
+            }
+        </tbody>
+    </table>
+</div>

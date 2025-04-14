@@ -5,9 +5,9 @@ import { HttpClient, HttpParams } from '@angular/common/http';
   providedIn: 'root',
 })
 export class MovieService {
-  constructor (private httpClient: HttpClient) { }
+  constructor(private httpClient: HttpClient) {}
 
-  private getMovies(params: any) {
+  public getMovies(params: any) {
     return this.httpClient.get('/movies', { params });
   }
 
