@@ -9,7 +9,8 @@
                 <th>
                     <div class="filter-container">
                         <span>Year</span>
-                        <input type="number" min="1900" [max]="getCurrentYear()" #year placeholder="Filter by year"
+                        <input id="list-year-filter" [(ngModel)]="this.filters.year" type="number" min="1900"
+                            [max]="getCurrentYear()" #year placeholder="Filter by year"
                             (keydown.enter)="onChangeYear()">
                     </div>
                 </th>
@@ -26,7 +27,7 @@
                 </th>
             </tr>
         </thead>
-
+        @if(data){
         <tbody>
 
             @for (movie of data.content; track $index) {
@@ -42,6 +43,7 @@
                 <td class="empty" colspan="4">No results found</td>
             </tr>
             }
+
         </tbody>
         <tfoot>
             <tr>
@@ -79,5 +81,6 @@
             </tr>
 
         </tfoot>
+        }
     </table>
 </div>

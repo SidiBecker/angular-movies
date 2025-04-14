@@ -6,6 +6,7 @@ import {
   OnInit,
   ViewChild,
 } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { MovieService } from 'src/app/shared/services/movie.service';
 
 export interface MovieListParams {
@@ -19,7 +20,7 @@ export interface MovieListParams {
   selector: 'app-list',
   templateUrl: './list.component.html',
   styleUrls: ['./list.component.scss'],
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule],
 })
 export class ListComponent implements OnInit {
   public data: any;
@@ -33,9 +34,6 @@ export class ListComponent implements OnInit {
 
   // Timeout to wait for get movies after a resize event
   private resizeTimeout: any;
-
-  @ViewChild('year', { static: false })
-  yearEl!: ElementRef<HTMLInputElement>;
 
   constructor(private moviesService: MovieService) {}
 
@@ -88,14 +86,8 @@ export class ListComponent implements OnInit {
   }
 
   getMovies() {
-    if (this.yearEl) {
-      const year = this.yearEl.nativeElement.value;
-
-      if (year) {
-        this.filters.year = Number(year);
-      } else {
-        this.filters.year = undefined;
-      }
+    if (this.filters.year == 0) {
+      this.filters.year = undefined;
     }
 
     // Remove all null fields from object

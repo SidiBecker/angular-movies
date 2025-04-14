@@ -31,7 +31,13 @@ describe('DashboardComponent', () => {
     fixture.detectChanges();
   });
 
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+
   it('get years with multiple winners', async () => {
+    fixture.detectChanges();
+
     const responseMock = {
       years: [
         { year: 1986, winnerCount: 1 },

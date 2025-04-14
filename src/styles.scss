@@ -101,6 +101,8 @@ table {
         justify-content: center;
 
         span {
+          cursor: pointer;
+
           padding: 6px 12px;
 
           &.active {
