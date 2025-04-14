@@ -50,13 +50,13 @@
                 <td colspan="4">
                     <div class="pagination">
 
-                        <span class="material-icons icon first" [ngClass]="{'disabled': data.first}"
+                        <span class="material-icons icon first" title="First page" [ngClass]="{'disabled': data.first}"
                             (click)="filters.page = 0; getMovies()">
                             first_page
                         </span>
 
                         <span class="material-icons icon back" [ngClass]="{'disabled': data.first}"
-                            (click)="filters.page = filters.page - 1; getMovies()">
+                            (click)="filters.page = filters.page - 1; getMovies()" title="Previous page">
                             play_arrow
                         </span>
 
@@ -68,12 +68,12 @@
                         </div>
 
                         <span class="material-icons icon next" [ngClass]="{'disabled': data.last}"
-                            (click)="filters.page = filters.page + 1; getMovies()">
+                            (click)="filters.page = filters.page + 1; getMovies()" title="Next page">
                             play_arrow
                         </span>
 
                         <span class="material-icons icon last" [ngClass]="{'disabled': data.last}"
-                            (click)="filters.page = data.totalPages - 1; getMovies()">
+                            (click)="filters.page = data.totalPages - 1; getMovies()" title="Last page">
                             last_page
                         </span>
                     </div>

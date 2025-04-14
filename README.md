@@ -8,8 +8,8 @@ Run `npm install` to install all of dependencies.
 
 ## Start
 
-Run `ng serve` to start a local development.
+Run `npm start` to start a local development.
 
 ## Running unit tests
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+Run `npm run test` to execute the unit tests via [Karma](https://karma-runner.github.io).

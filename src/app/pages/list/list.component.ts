@@ -58,7 +58,7 @@ export class ListComponent implements OnInit {
   calculatePageSize() {
     const availableHeight = window.innerHeight;
 
-    const itemHeight = 40;
+    const itemHeight = 45;
     const headerHeight = 150;
     const footerHeight = 50;
 
