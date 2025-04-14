@@ -5,9 +5,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
   providedIn: 'root',
 })
 export class MovieService {
-  private httpClient = inject(HttpClient);
-
-  constructor() {}
+  constructor(private httpClient: HttpClient) {}
 
   public getMovies(params: any) {
     return this.httpClient.get('/movies', { params });
