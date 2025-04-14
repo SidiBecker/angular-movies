@@ -100,4 +100,66 @@ describe('DashboardComponent', () => {
       )?.textContent,
     ).toContain(responseMock.studios[0].name);
   });
+
+  it('get produces with longest and shortest interval between wins', async () => {
+    const responseMock = {
+      min: [
+        {
+          producer: 'Joel Silver',
+          interval: 1,
+          previousWin: 1990,
+          followingWin: 1991,
+        },
+      ],
+      max: [
+        {
+          producer: 'Matthew Vaughn',
+          interval: 13,
+          previousWin: 2002,
+          followingWin: 2015,
+        },
+      ],
+    };
+
+    moviesServiceMock.getMaxMinWinIntervalForProducers.and.returnValue(
+      of(responseMock),
+    );
+
+    // Call the function
+    component.getMaxMinWinIntervalForProducers();
+
+    // Wait for the async request
+    await fixture.whenStable();
+
+    fixture.detectChanges();
+
+    expect(
+      moviesServiceMock.getMaxMinWinIntervalForProducers,
+    ).toHaveBeenCalled();
+
+    expect(component.minMaxWinIntervalForProducersTables[0].data).toEqual(
+      responseMock.max,
+    );
+
+    expect(component.minMaxWinIntervalForProducersTables[1].data).toEqual(
+      responseMock.min,
+    );
+
+    // Rendering check
+    const compiled = fixture.nativeElement as HTMLElement;
+
+    const cardId = '#card-dashboard-producers-max-min-interval';
+
+    // Rendering max
+    expect(
+      compiled.querySelector(`${cardId} #card-dashboard-table-0 tbody tr td`)
+        ?.textContent,
+    ).toContain(responseMock.max[0].producer);
+
+    // Rendering min
+    expect(
+      compiled.querySelector(`${cardId} #card-dashboard-table-1 tbody tr td`)
+        ?.textContent,
+    ).toContain(responseMock.min[0].producer);
+  });
 });
