@@ -1,11 +1,13 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root',
 })
 export class MovieService {
-  constructor(private httpClient: HttpClient) {}
+  private httpClient = inject(HttpClient);
+
+  constructor() {}
 
   public getMovies(params: any) {
     return this.httpClient.get('/movies', { params });

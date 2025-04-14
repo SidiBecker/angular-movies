@@ -4,12 +4,9 @@ import {
   CardDashboardComponent,
   Table,
   TableColumn,
-  TableRow,
-  TableSearchbar,
 } from './card-dashboard/card-dashboard.component';
 
 @Component({
-  standalone: true,
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss'],
@@ -71,9 +68,11 @@ export class DashboardComponent implements OnInit {
       next: (response: any) => {
         const studiosWithWinCount = response.studios as any[];
 
-        this.studiosWithWinCountTable.data = studiosWithWinCount
-          .sort((a: any, b: any) => b.winCount - a.winCount)
-          .slice(0, 3);
+        if (studiosWithWinCount) {
+          this.studiosWithWinCountTable.data = studiosWithWinCount
+            .sort((a: any, b: any) => b.winCount - a.winCount)
+            .slice(0, 3);
+        }
       },
     });
   }

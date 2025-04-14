@@ -6,7 +6,8 @@ import { AppComponent } from './app.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { ListComponent } from './pages/list/list.component';
 import { ApiInterceptor } from './interceptors/api.interceptor';
-import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 
 @NgModule({
   declarations: [AppComponent],
@@ -17,6 +18,8 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
       useClass: ApiInterceptor,
       multi: true,
     },
+    provideHttpClient(),
+    provideHttpClientTesting(),
   ],
   bootstrap: [AppComponent],
 })
