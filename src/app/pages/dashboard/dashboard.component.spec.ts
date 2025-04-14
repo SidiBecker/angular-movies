@@ -13,6 +13,7 @@ describe('DashboardComponent', () => {
       'getYearsWithMultipleWinners',
       'getStudiosWithWinCount',
       'getMaxMinWinIntervalForProducers',
+      'getWinnersByYear',
     ]);
     await TestBed.configureTestingModule({
       imports: [DashboardComponent],
@@ -161,5 +162,41 @@ describe('DashboardComponent', () => {
       compiled.querySelector(`${cardId} #card-dashboard-table-1 tbody tr td`)
         ?.textContent,
     ).toContain(responseMock.min[0].producer);
+  });
+
+  it('get winners by year', async () => {
+    const year = 2002;
+
+    const responseMock = [
+      {
+        id: 116,
+        year,
+        title: 'Swept Away',
+        studios: ['Screen Gems'],
+        producers: ['Matthew Vaughn'],
+        winner: true,
+      },
+    ];
+
+    moviesServiceMock.getWinnersByYear.and.returnValue(of(responseMock));
+
+    // Call the function
+    component.getWinnersByYear(year.toString());
+
+    // Wait for the async request
+    await fixture.whenStable();
+
+    fixture.detectChanges();
+
+    expect(moviesServiceMock.getWinnersByYear).toHaveBeenCalled();
+
+    expect(component.winnersByYearTable.data).toEqual(responseMock as any);
+
+    // Rendering check
+    const compiled = fixture.nativeElement as HTMLElement;
+    expect(
+      compiled.querySelector('#card-dashboard-winners-year table tbody tr td')
+        ?.textContent,
+    ).toContain(responseMock[0].id);
   });
 });
