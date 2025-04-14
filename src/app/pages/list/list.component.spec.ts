@@ -142,4 +142,50 @@ describe('ListComponent', () => {
       winnersMovies.content[0].id,
     );
   });
+
+  it('get movies no results', async () => {
+    component.filters.year = 1900;
+
+    const moviesByYear = {
+      content: movieListMock.content.filter(
+        (movie) => movie.year == component.filters.year,
+      ),
+    };
+
+    moviesServiceMock.getMovies.and.returnValue(of(moviesByYear));
+
+    // Call the function
+    component.getMovies();
+
+    // Wait for the async request
+    await fixture.whenStable();
+
+    fixture.detectChanges();
+
+    expect(moviesServiceMock.getMovies).toHaveBeenCalled();
+
+    expect(component.data).toEqual(moviesByYear);
+
+    // Rendering check
+    const compiled = fixture.nativeElement as HTMLElement;
+    expect(compiled.querySelector('table tbody tr td')?.className).toContain(
+      'empty',
+    );
+  });
+
+  it('should call server when click navigation', () => {
+    spyOn(component, 'getMovies');
+
+    const buttons = fixture.nativeElement.querySelectorAll(
+      '.pagination span',
+    ) as HTMLSpanElement[];
+
+    // Click all of navigation buttons and expect a server call
+    for (const button of buttons) {
+      button.click();
+      fixture.detectChanges();
+
+      expect(component.getMovies).toHaveBeenCalled();
+    }
+  });
 });

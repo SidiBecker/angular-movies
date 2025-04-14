@@ -63,7 +63,7 @@
                         <div class="pages">
                             @for (page of pages; track $index) {
                             <span [ngClass]="{'active': page.active }"
-                                (click)="filters.page = page.number - 1; getMovies()">{{page.number}}</span>
+                                (click)="onClickPage(page)">{{page.number}}</span>
                             }
                         </div>
 

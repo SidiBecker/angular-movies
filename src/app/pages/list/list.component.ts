@@ -156,4 +156,13 @@ export class ListComponent implements OnInit {
   getCurrentYear() {
     return new Date().getFullYear();
   }
+
+  onClickPage(page: any) {
+    if (page.active) {
+      return;
+    }
+
+    this.filters.page = page.number - 1;
+    this.getMovies();
+  }
 }
